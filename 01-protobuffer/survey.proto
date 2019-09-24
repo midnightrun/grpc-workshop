@@ -3,3 +3,21 @@ syntax = "proto3";
 package survey;
 
 option go_package = "surveypb";
+
+message Feedback {
+    string expectation = 1;
+    string message = 2;
+    int32 rating = 3;
+}
+
+message FeedbackRequest {
+    repeated Feedback feedback = 1;
+}
+
+message FeedbackResponse {
+    string result = 1;
+}
+
+service FeedbackService {
+    rpc Feedback(FeedbackRequest) returns (FeedbackResponse);
+}
