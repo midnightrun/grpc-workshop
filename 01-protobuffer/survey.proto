@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+package survey;
+
+option go_package = "surveypb";
