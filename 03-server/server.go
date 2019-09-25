@@ -30,7 +30,7 @@ func (s server) Feedback(ctx context.Context, r *surveypb.FeedbackRequest) (*sur
 			"expectation": expectation,
 			"message":     message,
 			"rating":      rating,
-		}).Info("Rating")
+		}).Info("Request")
 	}
 
 	response := &surveypb.FeedbackResponse{
