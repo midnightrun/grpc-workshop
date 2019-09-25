@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"net"
+	"os"
+	"os/signal"
 
 	surveypb "github.com/midnightrun/grpc-workshop/01-protobuffer"
 	log "github.com/sirupsen/logrus"
@@ -39,6 +41,13 @@ func (s server) Feedback(ctx context.Context, r *surveypb.FeedbackRequest) (*sur
 }
 
 func main() {
+	log.Info("gRPC Server starting ...")
+
+	shutdown := make(chan os.Signal, 1)
+
+	signal.Notify(shutdown, os.Interrupt)
+	signal.Notify(shutdown, os.Kill)
+
 	lis, err := net.Listen("tcp", "localhost:50051")
 	if err != nil {
 		log.WithFields(log.Fields{
@@ -50,7 +59,14 @@ func main() {
 	s := grpc.NewServer()
 	surveypb.RegisterFeedbackServiceServer(s, &server{})
 
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("Failed to accept incoming requests: %+v", err)
-	}
+	go func() {
+		if err := s.Serve(lis); err != nil {
+			log.Fatalf("Failed to accept incoming requests: %+v", err)
+		}
+	}()
+
+	<-shutdown
+
+	log.Info("Initiate graceful shutdown here")
+	os.Exit(0)
 }
