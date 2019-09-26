@@ -19,5 +19,5 @@ message FeedbackResponse {
 }
 
 service FeedbackService {
-    rpc Feedback(FeedbackRequest) returns (stream FeedbackResponse);
+    rpc Feedback(FeedbackRequest) returns (FeedbackResponse);
 }

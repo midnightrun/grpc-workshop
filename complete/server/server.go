@@ -6,14 +6,14 @@ import (
 	"os"
 	"os/signal"
 
-	surveypb "github.com/midnightrun/grpc-workshop/01-protobuffer"
+	surveypb "github.com/midnightrun/grpc-workshop/complete/feedbackpb"
 	log "github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 )
 
 const (
 	network = "tcp"
-	address = "0.0.0.0:50051"
+	address = "localhost:50051"
 )
 
 type server struct{}
